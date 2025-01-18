@@ -7,6 +7,7 @@ import org.example.authenticationwiththymeleaf.entity.User;
 import org.example.authenticationwiththymeleaf.repository.UserRepository;
 import org.example.authenticationwiththymeleaf.service.interfaces.IUserService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> getAllUsers() {
@@ -28,7 +30,7 @@ public class UserService implements IUserService {
                 registrationRequest.getFirstName(),
                 registrationRequest.getLastName(),
                 registrationRequest.getEmail(),
-                registrationRequest.getPassword(),
+                passwordEncoder.encode(registrationRequest.getPassword()),
                 List.of(new Role("ROLE_USER"))
         );
         return userRepository.save(user);
