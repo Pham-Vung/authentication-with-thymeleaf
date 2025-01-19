@@ -1,44 +1,64 @@
 package org.example.authenticationwiththymeleaf.configuration.user;
 
+import lombok.Data;
+import org.example.authenticationwiththymeleaf.entity.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
+@Data
+public class AuthUserDetails implements UserDetails {
+    private String username;
+    private String password;
+    private boolean isEnabled;
+    private List<GrantedAuthority> authorities;
+
+    public AuthUserDetails(User user) {
+        this.username = user.getEmail();
+        this.password = user.getPassword();
+        this.isEnabled = user.isEnabled();
+        this.authorities = Arrays.stream(user.getRoles().toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return org.springframework.security.core.userdetails.UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return org.springframework.security.core.userdetails.UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return org.springframework.security.core.userdetails.UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return org.springframework.security.core.userdetails.UserDetails.super.isEnabled();
+        return isEnabled;
     }
 }
