@@ -40,13 +40,26 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
     }
 
     private void sendVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {
+        System.out.println(user);
         String subject = "Email xác minh";
         String senderName = "Dịch vụ xác minh người dùng";
         String mailContent = "<p> Xin chào, " + user.getFirstName() + ", </p>"
                 + "<p> Cảm ơn bạn đã đăng ký với chúng tôi, "
-                + "Vui lòng, truy cập vào đường link bên dưới để hoàn tất đăng ký của bạn. </p>"
+                + "Vui lòng, nhấp vào liên kết bên dưới để hoàn tất đăng ký của bạn. </p>"
                 + "<a href=\"" + url + "\">Xác minh email của bạn để kích hoạt tài khoản của bạn</a>"
                 + "<p>Cảm ơn</p>";
+        emailMessage(subject, senderName, mailContent, mailSender, user);
+    }
+
+    public void sendPasswordResetVerificationEmail(String url, User user) throws MessagingException, UnsupportedEncodingException {
+        System.out.println(user);
+        String subject = "Xác thực yêu cầu đặt lại mật khẩu";
+        String senderName = "Dịch vụ xác thực người dùng";
+        String mailContent = "<p>Xin chào, " + user.getFirstName() + ", </p>"
+                + "<p><b>Gần đây bạn đã yêu cầu đặt lại mật khẩu của mình</b>"
+                + "Vui lòng nhấp vào liên kết bên dưới để hoàn tất</p>"
+                + "<a href=\"" + url + "\">Đặt lại mật khẩu</a>" +
+                "<p>Cảm ơn</p>";
         emailMessage(subject, senderName, mailContent, mailSender, user);
     }
 
