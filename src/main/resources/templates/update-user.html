@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments :: boots_trap">
+    <meta charset="UTF-8">
+    <title>Update user</title>
+</head>
+
+<body>
+    <div class="container col-md-offset-3 col-md-8 mt-lg-5 mb-md-5">
+        <div th:replace="fragments :: nav_bar"></div>
+        <h2 class="m-4">Thay đổi thông tin người dùng</h2>
+        <form th:action="@{/users/update/{id}(id=${user.id})}" method="post" th:object="${user}" class="px-4">
+            <input type="hidden" th:field="*{id}">
+            <div class="row mb-3">
+                <label for="firstName" class="col-sm-2 col-form-label">Tên</label>
+                <div class="col-sm-6">
+                    <input type="text" name="firstName" id="firstName" th:field="*{firstName}" autofocus="autofocus"
+                        required class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="lastName" class="col-sm-2 col-form-label">Họ</label>
+                <div class="col-sm-6">
+                    <input type="text" name="lastName" id="lastName" th:field="*{lastName}" required
+                        class="form-control" autofocus="autofocus">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-6">
+                    <input type="email" id="email" autofocus="autofocus" class="form-control" required name="email"
+                        th:field="*{email}">
+                </div>
+            </div>
+            <div><button class="btn btn-success">Cập nhật người dùng</button></div>
+        </form>
+    </div>
+</body>
+
+</html>

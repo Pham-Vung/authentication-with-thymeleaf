@@ -9,6 +9,10 @@
 <body>
     <div class="container col-md-offset-3 col-md-8 mt-lg-5">
         <div th:replace="fragments :: nav_bar"></div>
+        <div class="row mt-2">
+            <div th:if="${param.update_success}" class="alert alert-info">Cập nhật thông tin thành công</div>
+            <div th:if="${param.delete_success}" class="alert alert-info">Đã xóa người dùng</div>
+        </div>
         <div th:switch="${users}">
             <h2 th:case="null">Không có người dùng nào</h2>
             <div th:case="*">
@@ -27,13 +31,16 @@
                             <td th:text="${user.firstName}"></td>
                             <td th:text="${user.lastName}"></td>
                             <td th:text="${user.email}"></td>
-                            <td><a href="#" class="btn btn-info btn-sm">Chỉnh sửa</a></td>
-                            <td><a href="#" class="btn btn-danger btn-sm">Xóa</a></td>
+                            <td><a href="#" class="btn btn-info btn-sm"
+                                    th:href="@{/users/edit/{id}(id=${user.id})}">Chỉnh sửa</a></td>
+                            <td><a href="#" class="btn btn-danger btn-sm"
+                                    th:href="@{/users/delete/{id}(id=${user.id})}">Xóa</a></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <p><a href="#" th:href="@{/registration/registration-form}">Thêm người dùng mới</a></p>
+            <p><a href="#" th:href="@{/registration/registration-form}" class="btn btn-secondary btn-sm">Thêm người dùng
+                    mới</a></p>
         </div>
     </div>
 </body>
